@@ -3,9 +3,7 @@ use esp_idf_hal::peripherals::Peripherals;
 use esp_idf_hal::units::Hertz;
 //use bno055::{BNO055OperationMode, Bno055};
 use esp_idf_hal::delay::FreeRtos;
-use esp_idf_hal::delay::Ets; // équivalent de Delay
-// use mint::{EulerAngles, Quaternion}; //mathg tool to calculate angle
-// use byteorder::{ByteOrder, LittleEndian};
+
 
 fn main() {
     // It is necessary to call this function once. Otherwise some patches to the runtime
@@ -46,7 +44,7 @@ fn main() {
     let _ = i2c.write(0x28,&[0x3f, 0], 100);
 
 
-    //write 0b01 in 0x3d to activate only accelerometer (look at BNO055OperationMode)
+    //write 0b0111 in 0x3d to activate accelerometer, magnetometer y gyroscope (look at BNO055OperationMode)
     let _ = i2c.write(0x28,&[0x3d, 0b0111], 100);
     
     FreeRtos::delay_ms(1000);
@@ -56,7 +54,6 @@ fn main() {
         let res = i2c.write_read(0x28, &[0x08], &mut buffer, 100);
         println!("Result: {res:?}");
         println!("Buffer: {buffer:?}");
-        //this beautiful part dont let me see all the data so I comment it 
         // Accéléromètre
         let accel_x = i16::from_le_bytes([buffer[0], buffer[1]]);
         let accel_y = i16::from_le_bytes([buffer[2], buffer[3]]);
@@ -66,12 +63,12 @@ fn main() {
         let mag_x = i16::from_le_bytes([buffer[6], buffer[7]]);
         let mag_y = i16::from_le_bytes([buffer[8], buffer[9]]);
         let mag_z = i16::from_le_bytes([buffer[10], buffer[11]]);
-        println!("Mag -> X: {mag_x}, Y: {mag_y}, Z: {mag_z}");
+        //println!("Mag -> X: {mag_x}, Y: {mag_y}, Z: {mag_z}"); // comment this line to make it work
         // Gyroscope
         let gyro_x = i16::from_le_bytes([buffer[12], buffer[13]]);
         let gyro_y = i16::from_le_bytes([buffer[14], buffer[15]]);
         let gyro_z = i16::from_le_bytes([buffer[16], buffer[17]]);
-        //println!("Gyro -> X: {gyro_x}, Y: {gyro_y}, Z: {gyro_z}");
+        //println!("Gyro -> X: {gyro_x}, Y: {gyro_y}, Z: {gyro_z}"); // comment this line to make it work
         FreeRtos::delay_ms(1000);
     }
 
