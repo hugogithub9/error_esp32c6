@@ -12,7 +12,9 @@ Reading and printing only one type of sensor data (e.g. acceleration) works perf
 As soon as I try to print two values (e.g. acceleration and magnetometer), the board crashes and I get the following bootloader error:
 
 E (77) esp_image: Segment 0 load address 0x42058020, doesn't match data 0x00010020
+
 E (84) boot: Factory app partition is not bootable
+
 E (88) boot: No bootable app partitions in the partition table
 
 I opened an issue on GitHub to document and investigate this problem. So far, the cause remains unknown, and the issue is not resolved.
